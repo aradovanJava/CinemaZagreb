@@ -1,10 +1,10 @@
 package hr.apisit.java.main;
 
-import hr.apisit.java.domain.Address;
-import hr.apisit.java.domain.Cinema;
-import hr.apisit.java.domain.City;
-import hr.apisit.java.domain.Projection;
+import hr.apisit.java.domain.*;
+import hr.apisit.java.util.LocalDateUtils;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -17,11 +17,71 @@ public class Main {
         dataInput.close();
     }
 
-    private static List<Projection> enterProjections(Scanner dataInput) {
-        return null;
+    /**Služi zua upis brojeva
+     * Metoda prima tip podatka koji očekuje,
+     * Scanner objekt te poruku prije unosa i
+     * poruku kada se pojavi greška unosa(Unese se krivi tip podatka)
+     *
+     * @param numberType Klasa kojeg tipa je traženi unos (npr. Integer.class)
+     * @param data Scanner objekt za unos brojeva
+     * @param inputMessage Poruka koja se ispisuje prije unosa podatka
+     * @param errorMessage Poruka koja se ispisuje pri greški unosa
+     *
+     * @return Uneseni broj ukoliko je varijabla istog tipa kao zapisani traženi tip
+     *
+     * @param <T> Klasa čiji objekt se očekuje, a koja nasljeđuje Number klasu, npr. Integer, Long, Double, itd.
+     */
+    private static <T extends Number> T checkNumericInput(Class<T> numberType, Scanner data, String inputMessage, String errorMessage)
+    {
+        while (true)
+        {
+            try {
+                System.out.print(inputMessage);
+
+                if (numberType.equals(Integer.class)) {
+                    T number = numberType.cast(data.nextInt());
+                    data.nextLine();
+                    return number;
+                }
+                else if (numberType.equals(Long.class)) {
+                    T number = numberType.cast(data.nextLong());
+                    data.nextLine();
+                    return number;
+                }
+                else if (numberType.equals(Float.class)) {
+                    T number = numberType.cast(data.nextFloat());
+                    data.nextLine();
+                    return number;
+                }
+                else if (numberType.equals(Double.class)) {
+                    T number = numberType.cast(data.nextDouble());
+                    data.nextLine();
+                    return number;
+                }
+                else if (numberType.equals(Byte.class)) {
+                    T number = numberType.cast(data.nextByte());
+                    data.nextLine();
+                    return number;
+                }
+                else if (numberType.equals(Short.class)) {
+                    T number = numberType.cast(data.nextShort());
+                    data.nextLine();
+                    return number;
+                }
+                else if(numberType.equals(BigDecimal.class)) {
+                    T number = numberType.cast(data.nextBigDecimal());
+                    data.nextLine();
+                    return number;
+                }
+            }
+            catch (InputMismatchException ex)
+            {
+                System.out.println(errorMessage);
+                data.nextLine();
+            }
+        }
     }
 
-    //https://codereview.stackexchange.com/questions/262817/generic-scannersystem-in-parsing
     private static Address enterAddress(Scanner dataInput) {
         Boolean wrongInput = true;
         String cinemaStreet = "";
@@ -35,10 +95,10 @@ public class Main {
             System.out.print("Unesite kućni broj kina: ");
             cinemaHouseNumber = dataInput.nextLine();
             Integer initialValue = 0;
-            postalCode = checkIntegerInput(dataInput,
+            postalCode = checkNumericInput(Integer.class, dataInput,
                     "Unesite poštanski broj mjesta gdje se kino nalazi:",
                     "Unijeli ste neispravan poštanski broj, molimo pokušajte ponovno!");
-            dataInput.nextLine();
+
             Integer chosenCityNumber = 0;
             Boolean wrongCityOrdinal = false;
             do {
@@ -71,66 +131,58 @@ public class Main {
         return new Address(cinemaStreet, cinemaHouseNumber, postalCode, chosenCity);
     }
 
-
-
-    private static Integer checkIntegerInput(Scanner dataInput, String inputMessage,
-                                             String errorMessage) {
-        Boolean wrongInput = true;
-        Integer integerInput = 0;
-
-        while(wrongInput) {
-
-            System.out.print(inputMessage);
-
-            try {
-                integerInput = dataInput.nextInt();
-                wrongInput = false;
-            } catch (InputMismatchException ex) {
-                System.out.println(errorMessage);
-                dataInput.nextLine();
-            }
-        }
-
-        return integerInput;
-    }
-
-    private static Long checkLongInput(Scanner dataInput, String inputMessage,
-                                             String errorMessage) {
-        Boolean wrongInput = true;
-        Long longInput = 0l;
-
-        while(wrongInput) {
-
-            System.out.print(inputMessage);
-
-            try {
-                longInput = dataInput.nextLong();
-                wrongInput = false;
-            } catch (InputMismatchException ex) {
-                System.out.println(errorMessage);
-                dataInput.nextLine();
-            }
-        }
-
-        return longInput;
-    }
-
     private static List<Cinema> enterCinemas(Scanner dataInput) {
         List<Cinema> cinemaList = new ArrayList<>();
-        Integer numberOfCinemas = checkIntegerInput(dataInput,
+        Integer numberOfCinemas = checkNumericInput(Integer.class, dataInput,
                 "Unesite broj kina koja želite unijeti: ",
                 "Unijeli ste neispravan broj, molimo pokušajte ponovno!");
 
         for(int i = 1; i <= numberOfCinemas; i++) {
-            Integer cinemaId = checkIntegerInput(dataInput,
+            Integer cinemaId = checkNumericInput(Integer.class, dataInput,
                     "Unesite identifikator " + i + ". kina: ",
                     "Unijeli ste neispravni identifikator " + i + ". kina: ");
-            dataInput.nextLine();
-            System.out.print("Unesite naziv" + i + ". kina: ");
+            System.out.print("Unesite naziv " + i + ". kina: ");
             String cinemaName = dataInput.nextLine();
             Address cinemaAddres = enterAddress(dataInput);
+
+            List<Projection> projectionList = enterProjections(dataInput);
+
+
+
         }
 
         return cinemaList;
+    }
+
+    private static List<Projection> enterProjections(Scanner dataInput) {
+
+        Integer numberOfProjections = checkNumericInput(Integer.class, dataInput,
+                "Unesite broj projekcija koje želite prikazivati u kinu: ",
+                "Unijeli ste neispravan broj projekcija, molimo pokušajte ponovno!");
+
+        List<Projection> projectionList = new ArrayList<>();
+
+        for(int projectionsCount = 1; projectionsCount <= numberOfProjections; projectionsCount++) {
+            Integer projectionId = checkNumericInput(Integer.class, dataInput,
+                    "Unesite identifikator " + projectionsCount + " projekcije: ",
+                    "Unijeli ste neispravan identifikator projekcija, molimo pokušajte ponovno!");
+
+            System.out.print("Unesite naziv " + projectionsCount + " projekcije: ");
+            String projectionName = dataInput.nextLine();
+
+            LocalDateTime dateTime = LocalDateUtils.enterLocalDateTime(dataInput,
+                    "Unesite datum i vrijeme održavanja " + projectionsCount + " projekcije u formatu '"
+                                   + LocalDateUtils.DEFAULT_DATE_FORMAT + "':",
+                                "Unijeli ste neispravan format datuma, mora biti u formatu "
+                                + LocalDateUtils.DEFAULT_DATE_FORMAT + "'");
+
+            List<Seat> seats = enterSeats(dataInput);
+        }
+
+        return projectionList;
+    }
+
+    private static List<Seat> enterSeats(Scanner dataInput) {
+        return new ArrayList<>();
     }
 }
