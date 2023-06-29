@@ -31,7 +31,7 @@ public class Main {
      *
      * @param <T> Klasa čiji objekt se očekuje, a koja nasljeđuje Number klasu, npr. Integer, Long, Double, itd.
      */
-    private static <T extends Number> T checkNumericInput(Class<T> numberType, Scanner data, String inputMessage, String errorMessage)
+    protected static <T extends Number> T checkNumericInput(Class<T> numberType, Scanner data, String inputMessage, String errorMessage)
     {
         while (true)
         {

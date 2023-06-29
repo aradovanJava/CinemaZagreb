@@ -6,9 +6,9 @@ public enum City {
     RIJEKA("RIJEKA"), OSIJEK("OSIJEK"),
     VARAZDIN("VARAŽDIN"), CAKOVEC("ČAKOVEC");
 
-    private String cityName;
+    private final String cityName;
 
-    private City(String cityName) {
+    City(String cityName) {
         this.cityName = cityName;
     }
 

@@ -47,4 +47,9 @@ public class Projection {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+
+    @Override
+    public String toString() {
+        return name + " " + dateTime + " " + stage;
+    }
 }

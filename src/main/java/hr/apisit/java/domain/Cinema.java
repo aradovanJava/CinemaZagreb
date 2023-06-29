@@ -57,4 +57,9 @@ public class Cinema {
     public void setStageList(List<Stage> stageList) {
         this.stageList = stageList;
     }
+
+    @Override
+    public String toString() {
+        return name + " " + address;
+    }
 }

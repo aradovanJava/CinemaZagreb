@@ -8,12 +8,15 @@ import java.util.Scanner;
 
 public class LocalDateUtils {
     public static final String DEFAULT_DATE_FORMAT = "dd.MM.yyyy. HH:mm";
+    public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
+
+    public static LocalDateTime convertStringToLocalDateTime(String localDateTimeString) {
+        return LocalDateTime.parse(localDateTimeString, formatter);
+    }
 
     public static LocalDateTime enterLocalDateTime(Scanner inputData,
                                                    String inputMessage,
                                                    String errorMessage) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT);
-
         Optional<LocalDateTime> dateTime = Optional.empty();
         Boolean dateTimeValid = false;
 
