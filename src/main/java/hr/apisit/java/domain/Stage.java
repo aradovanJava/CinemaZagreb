@@ -6,12 +6,12 @@ public class Stage {
 
     private Integer id;
     private String name;
-    private List<Seat> setList;
+    private List<Seat> seatList;
 
     public Stage(Integer id, String name, List<Seat> setList) {
         this.id = id;
         this.name = name;
-        this.setList = setList;
+        this.seatList = setList;
     }
 
     public Integer getId() {
@@ -30,12 +30,12 @@ public class Stage {
         this.name = name;
     }
 
-    public List<Seat> getSetList() {
-        return setList;
+    public List<Seat> getSeatList() {
+        return seatList;
     }
 
-    public void setSetList(List<Seat> setList) {
-        this.setList = setList;
+    public void setSeatList(List<Seat> seatList) {
+        this.seatList = seatList;
     }
 
     @Override

@@ -2,11 +2,14 @@ package hr.apisit.java.main;
 
 import hr.apisit.java.domain.Cinema;
 import hr.apisit.java.domain.Projection;
+import hr.apisit.java.domain.Seat;
+import hr.apisit.java.domain.Stage;
 import hr.apisit.java.repository.FileCinemaRepository;
+import hr.apisit.java.sorter.CinemaSorter;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class FileMain {
 
@@ -46,12 +49,41 @@ public class FileMain {
         FileCinemaRepository fileCinemaRepository = new FileCinemaRepository();
         try {
             List<Cinema> cinemaList = fileCinemaRepository.readAll();
+
+            cinemaList.get(0).getProjectionList().stream().sorted(new CinemaSorter()).collect(Collectors.toList());
+
+            System.out.println("Ovo su prazna sjedala po kino projekcijama: ");
+            Map<Projection, List<Seat>> seatReport = generateSeatReport(cinemaList);
+
+            for(Projection projection : seatReport.keySet()) {
+                System.out.println("Projection: " + projection.getName());
+                System.out.println("Seats:");
+                for(Seat seat : seatReport.get(projection)) {
+                    System.out.print("Seat: " + seat.getRowName() + " " + seat.getPositionInRow() + "\n");
+                }
+            }
+
             Cinema chosenCinema = selectFromList(cinemaList, dataInput);
             Projection chosenProjection = selectFromList(chosenCinema.getProjectionList(), dataInput);
             System.out.println("Chosen projection: " + chosenProjection);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static Map<Projection, List<Seat>> generateSeatReport(List<Cinema> cinemaList) {
+        Map<Projection, List<Seat>> seatReport = new TreeMap<>(new CinemaSorter());
+
+        for(Cinema cinema : cinemaList) {
+            for(Projection projection : cinema.getProjectionList()) {
+                seatReport.put(projection, new ArrayList<>());
+                Stage projectionStage = projection.getStage();
+                List<Seat> seatList = projectionStage.getSeatList();
+                seatReport.get(projection).addAll(seatList);
+            }
+        }
+
+        return seatReport;
     }
 
 }
