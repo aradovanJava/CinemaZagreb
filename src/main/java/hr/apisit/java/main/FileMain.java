@@ -6,6 +6,7 @@ import hr.apisit.java.domain.Seat;
 import hr.apisit.java.domain.Stage;
 import hr.apisit.java.repository.FileCinemaRepository;
 import hr.apisit.java.sorter.CinemaSorter;
+import hr.apisit.java.thread.ProjectionCounterThread;
 
 import java.io.IOException;
 import java.util.*;
@@ -43,6 +44,10 @@ public class FileMain {
     }
 
     public static void main(String[] args) {
+
+        ProjectionCounterThread thread = new ProjectionCounterThread(new FileCinemaRepository());
+        new Thread(thread).start();
+
         Scanner dataInput = new Scanner(System.in);
         System.out.println("Dobro došli u Cinema Planet sustav.");
 
