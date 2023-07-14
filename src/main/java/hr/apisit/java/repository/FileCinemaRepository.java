@@ -12,11 +12,13 @@ public class FileCinemaRepository implements CrudRepository<Cinema, Integer> {
 
     public static final Integer NUMBER_OF_CINEMA_ROWS = 8;
 
-    private FileProjectionRepository fileProjectionRepository;
+    private CrudRepository fileProjectionRepository;
     private FileStageRepository fileStageRepository;
 
     public FileCinemaRepository() {
-        this.fileProjectionRepository = new FileProjectionRepository();
+        //this.fileProjectionRepository = new FileProjectionRepository();
+        AbstractCinemaRepositoryFactory cinemaFactory = CinemaRepositoryProvider.getFactory(HallFactory.CINEMA_FACTORY);
+        this.fileProjectionRepository = cinemaFactory.createRepository();
         this.fileStageRepository = new FileStageRepository();
     }
 
@@ -45,8 +47,9 @@ public class FileCinemaRepository implements CrudRepository<Cinema, Integer> {
 
             for(String projectionIdString : projectionsIds) {
                 Long projectionId = Long.parseLong(projectionIdString);
-                Projection projection = fileProjectionRepository.readById(projectionId);
-                projectionList.add(projection);
+                if(fileProjectionRepository.readById(projectionId) instanceof Projection p) {
+                    projectionList.add(p);
+                }
             }
 
             String stagesGroup = lines.get(i * NUMBER_OF_CINEMA_ROWS + 7);
