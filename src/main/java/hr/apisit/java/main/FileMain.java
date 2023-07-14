@@ -4,6 +4,9 @@ import hr.apisit.java.domain.Cinema;
 import hr.apisit.java.domain.Projection;
 import hr.apisit.java.domain.Seat;
 import hr.apisit.java.domain.Stage;
+import hr.apisit.java.repository.CinemaRepositoryFactory;
+import hr.apisit.java.repository.CinemaRepositoryType;
+import hr.apisit.java.repository.CrudRepository;
 import hr.apisit.java.repository.FileCinemaRepository;
 import hr.apisit.java.sorter.CinemaSorter;
 import hr.apisit.java.thread.ProjectionCounterThread;
@@ -51,7 +54,8 @@ public class FileMain {
         Scanner dataInput = new Scanner(System.in);
         System.out.println("Dobro došli u Cinema Planet sustav.");
 
-        FileCinemaRepository fileCinemaRepository = new FileCinemaRepository();
+        //FileCinemaRepository fileCinemaRepository = new FileCinemaRepository();
+        CrudRepository fileCinemaRepository = CinemaRepositoryFactory.create(CinemaRepositoryType.CINEMA_REPOSITORY_TYPE);
         try {
             List<Cinema> cinemaList = fileCinemaRepository.readAll();
 
