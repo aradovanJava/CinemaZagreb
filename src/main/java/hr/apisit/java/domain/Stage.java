@@ -2,24 +2,14 @@ package hr.apisit.java.domain;
 
 import java.util.List;
 
-public class Stage {
-
-    private Integer id;
+public class Stage extends BaseEntity {
     private String name;
     private List<Seat> seatList;
 
-    public Stage(Integer id, String name, List<Seat> setList) {
-        this.id = id;
+    public Stage(Long id, String name, List<Seat> setList) {
+        super(id);
         this.name = name;
         this.seatList = setList;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {

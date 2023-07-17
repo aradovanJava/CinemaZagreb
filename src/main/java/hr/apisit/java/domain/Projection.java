@@ -2,26 +2,17 @@ package hr.apisit.java.domain;
 
 import java.time.LocalDateTime;
 
-public class Projection {
+public class Projection extends BaseEntity {
 
-    private Long id;
     private String name;
     private LocalDateTime dateTime;
     private Stage stage;
 
     public Projection(Long id, String name, LocalDateTime dateTime, Stage stage) {
-        this.id = id;
+        super(id);
         this.name = name;
         this.dateTime = dateTime;
         this.stage = stage;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {

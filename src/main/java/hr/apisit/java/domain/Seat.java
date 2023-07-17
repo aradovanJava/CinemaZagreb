@@ -1,23 +1,14 @@
 package hr.apisit.java.domain;
 
-public class Seat {
+public class Seat extends BaseEntity {
 
-    private Long id;
     private String rowName;
     private Integer positionInRow;
 
     public Seat(Long id, String rowName, Integer positionInRow) {
-        this.id = id;
+        super(id);
         this.rowName = rowName;
         this.positionInRow = positionInRow;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getRowName() {

@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileStageRepository implements CrudRepository<Stage, Integer> {
+public class FileStageRepository implements CrudRepository<Stage, Long> {
     private static final Integer NUMBER_OF_STAGE_ROWS = 3;
 
     private final FileSeatRepository fileSeatRepository;
@@ -27,7 +27,7 @@ public class FileStageRepository implements CrudRepository<Stage, Integer> {
 
         for(int i = 0; i < lines.size()/NUMBER_OF_STAGE_ROWS; i++) {
             String idString = lines.get(i * NUMBER_OF_STAGE_ROWS);
-            Integer id = Integer.parseInt(idString);
+            Long id = Long.parseLong(idString);
             String stageName = lines.get(i * NUMBER_OF_STAGE_ROWS + 1);
             String seatsGroup = lines.get(i * NUMBER_OF_STAGE_ROWS + 2);
             String[] seatsIds = seatsGroup.split("\\s+");
@@ -45,13 +45,5 @@ public class FileStageRepository implements CrudRepository<Stage, Integer> {
         }
 
         return stageList;
-    }
-
-    @Override
-    public Stage readById(Integer id) throws IOException {
-        return readAll().stream()
-                .filter(stage -> stage.getId().equals(id))
-                .findFirst()
-                .get();
     }
 }

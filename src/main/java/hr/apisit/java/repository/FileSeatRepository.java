@@ -32,11 +32,4 @@ public class  FileSeatRepository implements CrudRepository<Seat, Long> {
         return seatList;
     }
 
-    @Override
-    public Seat readById(Long id) throws IOException {
-        return readAll().stream()
-                .filter(seat -> seat.getId().equals(id))
-                .findFirst()
-                .get();
-    }
 }

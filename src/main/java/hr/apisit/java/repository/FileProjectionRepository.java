@@ -39,7 +39,7 @@ public class FileProjectionRepository implements CrudRepository<Projection, Long
                     LocalDateUtils.convertStringToLocalDateTime(
                             projectionDateAndTimeString);
             String stageIdString = lines.get(i * NUMBER_OF_PROJECTION_ROWS + 3);
-            Integer stageId = Integer.parseInt(stageIdString);
+            Long stageId = Long.parseLong(stageIdString);
 
             Stage projectStage = fileStageRepository.readById(stageId);
 
@@ -49,13 +49,5 @@ public class FileProjectionRepository implements CrudRepository<Projection, Long
         }
 
         return projectionList;
-    }
-
-    @Override
-    public Projection readById(Long id) throws IOException {
-        return readAll().stream()
-                .filter(projection -> projection.getId().equals(id))
-                .findFirst()
-                .get();
     }
 }

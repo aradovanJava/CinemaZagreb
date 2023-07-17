@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileCinemaRepository implements CrudRepository<Cinema, Integer> {
+public class FileCinemaRepository implements CrudRepository<Cinema, Long> {
 
     public static final Integer NUMBER_OF_CINEMA_ROWS = 8;
 
@@ -17,7 +17,7 @@ public class FileCinemaRepository implements CrudRepository<Cinema, Integer> {
 
     public FileCinemaRepository() {
         //this.fileProjectionRepository = new FileProjectionRepository();
-        AbstractCinemaRepositoryFactory cinemaFactory = CinemaRepositoryProvider.getFactory(HallFactory.CINEMA_FACTORY);
+        AbstractCinemaRepositoryFactory cinemaFactory = CinemaRepositoryProvider.getFactory(HallFactory.PROJECTION_FACTORY);
         this.fileProjectionRepository = cinemaFactory.createRepository();
         this.fileStageRepository = new FileStageRepository();
     }
@@ -32,7 +32,7 @@ public class FileCinemaRepository implements CrudRepository<Cinema, Integer> {
 
         for(int i = 0; i < lines.size()/NUMBER_OF_CINEMA_ROWS; i++) {
             String idString = lines.get(i * NUMBER_OF_CINEMA_ROWS);
-            Integer id = Integer.parseInt(idString);
+            Long id = Long.parseLong(idString);
             String cinemaName = lines.get(i * NUMBER_OF_CINEMA_ROWS + 1);
             String cinemaStreet = lines.get(i * NUMBER_OF_CINEMA_ROWS + 2);
             String cinemaHouseNumber = lines.get(i * NUMBER_OF_CINEMA_ROWS + 3);
@@ -58,7 +58,7 @@ public class FileCinemaRepository implements CrudRepository<Cinema, Integer> {
             List<Stage> stagesList = new ArrayList<>();
 
             for(String stagesIdString : stagesIds) {
-                Integer stageId = Integer.parseInt(stagesIdString);
+                Long stageId = Long.parseLong(stagesIdString);
                 Stage stage = fileStageRepository.readById(stageId);
                 stagesList.add(stage);
             }
@@ -70,10 +70,5 @@ public class FileCinemaRepository implements CrudRepository<Cinema, Integer> {
         }
 
         return cinemaList;
-    }
-
-    @Override
-    public Cinema readById(Integer integer) throws IOException {
-        return null;
     }
 }

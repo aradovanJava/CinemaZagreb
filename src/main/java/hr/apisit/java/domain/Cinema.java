@@ -2,28 +2,19 @@ package hr.apisit.java.domain;
 
 import java.util.List;
 
-public class Cinema {
+public class Cinema extends BaseEntity {
 
-    private Integer id;
     private String name;
     private Address address;
     private List<Projection> projectionList;
     private List<Stage> stageList;
 
-    public Cinema(Integer id, String name, Address address, List<Projection> projectionList, List<Stage> stageList) {
-        this.id = id;
+    public Cinema(Long id, String name, Address address, List<Projection> projectionList, List<Stage> stageList) {
+        super(id);
         this.name = name;
         this.address = address;
         this.projectionList = projectionList;
         this.stageList = stageList;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {
