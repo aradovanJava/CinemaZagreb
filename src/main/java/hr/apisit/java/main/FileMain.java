@@ -50,6 +50,7 @@ public class FileMain {
 
         //FileCinemaRepository fileCinemaRepository = new FileCinemaRepository();
         CrudRepository fileCinemaRepository = CinemaRepositoryFactory.create(CinemaRepositoryType.CINEMA_REPOSITORY_TYPE);
+        CrudRepository fileSeatRepository = CinemaRepositoryFactory.create(CinemaRepositoryType.SEAT_REPOSITORY_TYPE);
         try {
 
             List<Cinema> cinemaList = fileCinemaRepository.readAll();
@@ -59,8 +60,13 @@ public class FileMain {
 
             FileTicketRepository fileTicketRepository = new FileTicketRepository();
             List<Ticket> ticketList = fileTicketRepository.readAll();
+            List<Seat> availableSeatList = fileSeatRepository.readAll();
+            CinemaTicketRegister cinemaTicketRegister = new CinemaTicketRegister(
+                    ticketList, new ArrayList<>(), availableSeatList);
 
-            cinemaList.get(0).getProjectionList().stream().sorted(new CinemaSorter()).collect(Collectors.toList());
+            cinemaTicketRegister.updateTickets();
+
+            //cinemaList.get(0).getProjectionList().stream().sorted(new CinemaSorter()).collect(Collectors.toList());
 
             System.out.println("Ovo su prazna sjedala po kino projekcijama: ");
             Map<Projection, List<Seat>> seatReport = generateSeatReport(cinemaList);

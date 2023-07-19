@@ -9,16 +9,42 @@ public class CinemaTicketRegister {
     private List<Ticket> ticketsList;
     private List<Seat> availableSeats;
 
-    public CinemaTicketRegister() {
-        this.soldSeats = new ArrayList<>();
+    public CinemaTicketRegister(List<Ticket> ticketsList, List<Seat> soldSeats, List<Seat> availableSeats) {
+        this.ticketsList = ticketsList;
+        this.soldSeats = soldSeats;
+        this.availableSeats = availableSeats;
     }
 
     public List<Seat> getSoldSeats() {
         return soldSeats;
     }
 
+    public void setSoldSeats(List<Seat> soldSeats) {
+        this.soldSeats = soldSeats;
+    }
+
+    public List<Ticket> getTicketsList() {
+        return ticketsList;
+    }
+
+    public void setTicketsList(List<Ticket> ticketsList) {
+        this.ticketsList = ticketsList;
+    }
+
+    public List<Seat> getAvailableSeats() {
+        return availableSeats;
+    }
+
+    public void setAvailableSeats(List<Seat> availableSeats) {
+        this.availableSeats = availableSeats;
+    }
+
     public void updateTickets() {
-        //prođi krod sve tickete
-        //prebaci prodana sjedala iz slobodnih u prodane
+        ticketsList.stream()
+                .map(t -> t.getPurchasedSeat())
+                .forEach(s -> {
+                    soldSeats.add(s);
+                    availableSeats.remove(s);
+                });
     }
 }

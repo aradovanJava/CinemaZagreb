@@ -1,6 +1,7 @@
 package hr.apisit.java.domain;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Stage extends BaseEntity {
     private String name;
@@ -31,5 +32,18 @@ public class Stage extends BaseEntity {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Stage stage)) return false;
+        if (!super.equals(o)) return false;
+        return Objects.equals(name, stage.name) && Objects.equals(seatList, stage.seatList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), name, seatList);
     }
 }
